@@ -20,6 +20,11 @@ form {
   grid-template-columns: max-content max-content;
   width: fit-content;
   gap: 0.125em 0.5em;
+  & * {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
   & label {
     justify-self: end;
   }
