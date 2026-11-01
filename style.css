@@ -21,7 +21,7 @@ form {
   }
   div {
     display: grid;
-    grid-template-columns: 8ch max-content 1.5em 1.5em;
+    grid-template-columns: 8ch 1em auto auto;
     justify-content: center;
     gap: 0 0.25em;
   }
@@ -37,8 +37,11 @@ form {
     }
   }
   button {
-    width: 100%;
-    height: 100%;
+    min-width: 1.25em;
+    min-height: 1.25em;
+    aspect-ratio: 1;
     font-size: 1em;
+    display: grid;
+    place-content: center;
   }
 }
