@@ -2,6 +2,10 @@
   padding: 0;
   margin: 0;
 }
+html,
+body {
+  touch-action: manipulation;
+}
 body {
   min-height: 100svh;
 }
