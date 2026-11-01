@@ -7,4 +7,22 @@ body {
 }
 canvas {
   display: block;
+  position: absolute;
+  z-index: -10;
+}
+form {
+  padding: 0.5em;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  width: fit-content;
+  gap: 0.125em 0.5em;
+  & label {
+    justify-self: end;
+  }
+  input {
+    font-size: 1em;
+    width: 6ch;
+    margin-inline-end: 0.25em;
+    text-align: center;
+  }
 }

@@ -3,17 +3,35 @@ class Canvas {
   balls = [];
   cooldown_new_ball;
   CANVAS_BG_COLOR = "#C8C8C8";
-  BALL_MIN_RADIUS_RATIO = 0.03 / 2;
-  BALL_MAX_RADIUS_RATIO = 0.1 / 2;
-  BALL_MIN_VELOCITY_RATIO = 0.005;
-  BALL_MAX_VELOCITY_RATIO = 0.02;
-  NUM_MAX_BALL = 30;
-  COOLDOWN_NEW_BALL = 1.0;
 
-  constructor(canvas) {
+  constructor(canvas, configs) {
     this.canvas = canvas;
     this.resize();
+    this.updateConfigs(configs);
     this.cooldown_new_ball = this.COOLDOWN_NEW_BALL;
+  }
+
+  updateConfigs(configs) {
+    this.NUM_MAX_BALL = Number(configs.ballCount);
+    this.BALL_MIN_DIAMETER_RATIO = Number(configs.minBallDiameter) * 0.01;
+    this.BALL_MAX_DIAMETER_RATIO = Number(configs.maxBallDiameter) * 0.01;
+    this.BALL_MIN_VELOCITY_RATIO_PER_SEC =
+      Number(configs.minBallVelocity) * 0.01;
+    this.BALL_MAX_VELOCITY_RATIO_PER_SEC =
+      Number(configs.maxBallVelocity) * 0.01;
+    this.COOLDOWN_NEW_BALL = Number(configs.cooldownNewBall);
+  }
+
+  fitConfigs(ball) {
+    const minBorderLength = Math.min(this.canvas.width, this.canvas.height);
+    const radius = ball.radius;
+    const velocity = ball.velocity.len();
+    return (
+      (minBorderLength * this.BALL_MIN_DIAMETER_RATIO) / 2 <= radius &&
+      radius <= (minBorderLength * this.BALL_MAX_DIAMETER_RATIO) / 2 &&
+      // minBorderLength * this.BALL_MIN_VELOCITY_RATIO_PER_SEC <= velocity &&
+      velocity <= minBorderLength * this.BALL_MAX_VELOCITY_RATIO_PER_SEC
+    );
   }
 
   resize() {
@@ -24,13 +42,13 @@ class Canvas {
   generateNewBall() {
     const minBorderLength = Math.min(this.canvas.width, this.canvas.height);
     const radius = randomInt(
-      minBorderLength * this.BALL_MIN_RADIUS_RATIO,
-      minBorderLength * this.BALL_MAX_RADIUS_RATIO,
+      (minBorderLength * this.BALL_MIN_DIAMETER_RATIO) / 2,
+      (minBorderLength * this.BALL_MAX_DIAMETER_RATIO) / 2,
     );
     const velocity = V2.fromPolar(
       randomInt(
-        minBorderLength * this.BALL_MIN_VELOCITY_RATIO,
-        minBorderLength * this.BALL_MAX_VELOCITY_RATIO,
+        minBorderLength * this.BALL_MIN_VELOCITY_RATIO_PER_SEC,
+        minBorderLength * this.BALL_MAX_VELOCITY_RATIO_PER_SEC,
       ),
       Math.random() * 2 * Math.PI,
     );
@@ -60,7 +78,7 @@ class Canvas {
           newBall.centerPos.dist(ball.centerPos) <=
           newBall.radius + ball.radius
         ) {
-          newBall.update();
+          newBall.update(dt);
         }
       }
       this.balls.push(newBall);
@@ -72,15 +90,17 @@ class Canvas {
         const thatBall = this.balls[j];
         ball.checkCollisionWithBall(thatBall, this);
       }
-      ball.checkCollisionWithBorder({
-        minX: 0,
-        minY: 0,
-        maxX: this.canvas.width,
-        maxY: this.canvas.height,
-      });
+      if (this.fitConfigs(ball) && i < this.NUM_MAX_BALL) {
+        ball.checkCollisionWithBorder({
+          minX: 0,
+          minY: 0,
+          maxX: this.canvas.width,
+          maxY: this.canvas.height,
+        });
+      }
     }
     for (let i = 0; i < this.balls.length; ++i) {
-      this.balls[i].update();
+      this.balls[i].update(dt);
     }
   }
 
@@ -133,7 +153,7 @@ class V2 {
     return this.len() === 0;
   }
   dist(that) {
-    return this.len(this.sub(that));
+    return this.sub(that).len();
   }
   static fromPolar(r, theta) {
     return new V2(r * Math.cos(theta), r * Math.sin(theta));
@@ -204,8 +224,8 @@ class Ball {
     thatBall.velocity = thatBallNewV;
   }
 
-  update() {
-    this.centerPos = this.centerPos.add(this.velocity);
+  update(dt) {
+    this.centerPos = this.centerPos.add(this.velocity.scale(dt));
   }
 
   checkCollisionWithBorder(screenBorders) {
@@ -246,7 +266,12 @@ function random255() {
 }
 
 (() => {
-  const canvas = new Canvas(document.getElementById("canvas"));
+  const form = document.getElementById("configs");
+  const configs = Object.fromEntries(new FormData(form).entries());
+  const canvas = new Canvas(document.getElementById("canvas"), configs);
+  form.addEventListener("change", () => {
+    canvas.updateConfigs(Object.fromEntries(new FormData(form).entries()));
+  });
 
   let timeStart = null;
   function step(timeStamp) {

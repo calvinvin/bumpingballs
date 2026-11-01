@@ -9,5 +9,78 @@
   </head>
   <body>
     <canvas id="canvas"></canvas>
+    <form id="configs">
+      <label for="ballCount">球數: </label>
+      <div>
+        <input
+          id="ballCount"
+          name="ballCount"
+          type="number"
+          value="30"
+          onFocus="this.blur();"
+        />顆
+      </div>
+      <label for="cooldownNewBall">生球速度: </label>
+      <div>
+        <input
+          id="cooldownNewBall"
+          name="cooldownNewBall"
+          type="number"
+          min="0.25"
+          value="1"
+          step=".25"
+          onFocus="this.blur();"
+        />秒
+      </div>
+      <label for="minBallDiameter">最小球徑: </label>
+      <div>
+        <input
+          id="minBallDiameter"
+          name="minBallDiameter"
+          type="number"
+          min=".5"
+          value="3"
+          step=".5"
+          onFocus="this.blur();"
+        />%
+      </div>
+      <label for="maxBallDiameter">最大球徑: </label>
+      <div>
+        <input
+          id="maxBallDiameter"
+          name="maxBallDiameter"
+          type="number"
+          max="30"
+          value="10"
+          step=".5"
+          onFocus="this.blur();"
+        />%
+      </div>
+      <label for="minBallVelocity">最小球速: </label>
+      <div>
+        <input
+          id="minBallVelocity"
+          name="minBallVelocity"
+          type="number"
+          min="1"
+          ;
+          value="10"
+          step="5"
+          onFocus="this.blur();"
+        />%
+      </div>
+      <label for="maxBallVelocity">最大球速: </label>
+      <div>
+        <input
+          id="maxBallVelocity"
+          name="maxBallVelocity"
+          type="number"
+          max="300"
+          value="100"
+          step="5"
+          onFocus="this.blur();"
+        />%
+      </div>
+    </form>
   </body>
 </html>
