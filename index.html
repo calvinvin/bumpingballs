@@ -17,8 +17,11 @@
           name="ballCount"
           type="number"
           value="30"
-          onFocus="this.blur();"
-        />顆
+          readonly
+        />
+        <span>顆</span>
+        <button type="button" class="minus">-</button>
+        <button type="button" class="plus">+</button>
       </div>
       <label for="cooldownNewBall">生球速度: </label>
       <div>
@@ -29,8 +32,11 @@
           min="0.25"
           value="1"
           step=".25"
-          onFocus="this.blur();"
-        />秒
+          readonly
+        />
+        <span>秒</span>
+        <button type="button" class="minus">-</button>
+        <button type="button" class="plus">+</button>
       </div>
       <label for="minBallDiameter">最小球徑: </label>
       <div>
@@ -41,8 +47,11 @@
           min=".5"
           value="3"
           step=".5"
-          onFocus="this.blur();"
-        />%
+          readonly
+        />
+        <span>%</span>
+        <button type="button" class="minus">-</button>
+        <button type="button" class="plus">+</button>
       </div>
       <label for="maxBallDiameter">最大球徑: </label>
       <div>
@@ -53,8 +62,11 @@
           max="30"
           value="10"
           step=".5"
-          onFocus="this.blur();"
-        />%
+          readonly
+        />
+        <span>%</span>
+        <button type="button" class="minus">-</button>
+        <button type="button" class="plus">+</button>
       </div>
       <label for="minBallVelocity">最小球速: </label>
       <div>
@@ -62,12 +74,14 @@
           id="minBallVelocity"
           name="minBallVelocity"
           type="number"
-          min="1"
-          ;
+          min="0"
           value="10"
-          step="5"
-          onFocus="this.blur();"
-        />%
+          step="2.5"
+          readonly
+        />
+        <span>%</span>
+        <button type="button" class="minus">-</button>
+        <button type="button" class="plus">+</button>
       </div>
       <label for="maxBallVelocity">最大球速: </label>
       <div>
@@ -77,9 +91,12 @@
           type="number"
           max="300"
           value="100"
-          step="5"
-          onFocus="this.blur();"
-        />%
+          step="2.5"
+          readonly
+        />
+        <span>%</span>
+        <button type="button" class="minus">-</button>
+        <button type="button" class="plus">+</button>
       </div>
     </form>
   </body>

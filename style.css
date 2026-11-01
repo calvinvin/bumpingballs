@@ -19,10 +19,26 @@ form {
   & label {
     justify-self: end;
   }
+  div {
+    display: grid;
+    grid-template-columns: 8ch max-content 1.5em 1.5em;
+    justify-content: center;
+    gap: 0 0.25em;
+  }
   input {
     font-size: 1em;
-    width: 6ch;
-    margin-inline-end: 0.25em;
     text-align: center;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+  button {
+    width: 100%;
+    height: 100%;
+    font-size: 1em;
   }
 }

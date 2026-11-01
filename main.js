@@ -272,6 +272,20 @@ function random255() {
   form.addEventListener("change", () => {
     canvas.updateConfigs(Object.fromEntries(new FormData(form).entries()));
   });
+  document.querySelectorAll("button.minus").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const input = e.target.parentElement.querySelector("input");
+      input.stepDown();
+      input.form.dispatchEvent(new Event("change"));
+    });
+  });
+  document.querySelectorAll("button.plus").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const input = e.target.parentElement.querySelector("input");
+      input.stepUp();
+      input.form.dispatchEvent(new Event("change"));
+    });
+  });
 
   let timeStart = null;
   function step(timeStamp) {
